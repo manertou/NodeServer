@@ -1,6 +1,5 @@
 const fs = require('fs');
 const globalConf = require('./config');
-const controllerSet = [];
 const pathMap = new Map();
 
 const files = fs.readdirSync(globalConf['web_path']);
@@ -15,7 +14,6 @@ for (let i = 0; i < files.length; i ++) {
                 throw new Error('url path异常，URL：' + k);
             }
         }
-        controllerSet.push(temp);
     }
 }
 
