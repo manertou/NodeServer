@@ -23,19 +23,15 @@ http.createServer((req, res) => {
             res.end();
         }
     } else {//请求动态数据
-        if (loader.get(pathName) != null) {
-            try {
-                loader.get(pathName)(req, res);
-            } catch(e) {
-                res.writeHead(500);
-                res.write('<html><body><h1>500 BadServer</h1></body></html>');
-                res.end();
+        for (temp of loader) {
+            if (new RegExp('^' + temp[0] + '$').test(pathName)) {
+                temp[1](req, res);
+                return;
             }
-        } else {
-            res.writeHead(404);
-            res.write('<html><body><h1>404 NotFound</h1></body></html>');
-            res.end();
         }
+        res.writeHead(404);
+        res.write('<html><body><h1>404 NotFound</h1></body></html>');
+        res.end();
     }
 }).listen(globalConf['port']);
 
